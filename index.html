@@ -112,17 +112,17 @@ select, input, textarea {
     text-align: center;
     min-height: 24px;
 }
-.symbol-toolbar { display: grid; grid-template-columns: repeat(10,1fr); gap: 6px; margin: 10px 0; }
+.symbol-toolbar { display: grid; grid-template-columns: repeat(9,1fr); gap: 6px; margin: 10px 0; }
 
 @media (max-width: 600px) {
     .symbol-toolbar {
-        grid-template-columns: repeat(8, minmax(0, 1fr)); /* forces 8 columns without wrapping */
+        grid-template-columns: repeat(9, minmax(0, 1fr)); /* forces 7 columns without wrapping */
         gap: 3px;   /* smaller gap to fit screen */
         margin: 4px 0;
     }
 
     .symbol-toolbar button {
-        padding: 6px;     /* smaller buttons */
+        padding: 8px;     /* smaller buttons */
         font-size: 14px;  /* smaller font */
         border-radius: 4px;
     }
@@ -142,6 +142,7 @@ select, input, textarea {
     background: #ffcc00;
     transform: scale(1.05);
 }
+
 #feedback { margin-top: 10px; font-weight: bold; text-align: center; font-size: 24px; }
 #hintBtn { margin-top: 6px; text-align: center; cursor: pointer; color: #ffcc00; text-decoration: underline; }
 #keyboardToggle { margin-top: 12px; width: 100%; background: #ffcc00; color: #000; border: none; border-radius: 6px; padding: 14px; font-weight: bold; cursor: pointer; }
@@ -203,7 +204,7 @@ select, input, textarea {
     }
 
     .symbol-btn {
-        padding: 6px;
+        padding: 8px;
         font-size: 14px;
     }
 
@@ -265,13 +266,18 @@ Preview: <span id="mathPreviewContent">\( \)</span>
   
 
   <!-- Basic symbols -->
-  
-  <button class="symbol-btn" data-symbol="<">&lt;</button>
-  <button class="symbol-btn" data-symbol=">">&gt;</button>
+  <button class="symbol-btn" data-symbol="+">+</button>
+  <button class="symbol-btn" data-symbol="-">-</button>
+  <button class="symbol-btn" data-symbol="×">×</button>   <!-- multiply -->
+  <button class="symbol-btn" data-symbol="÷">÷</button>   <!-- divide -->
   <button class="symbol-btn" data-symbol="≤">≤</button>
   <button class="symbol-btn" data-symbol="≥">≥</button>
-  <button class="symbol-btn" data-symbol="."><b>.</b></button>
-  <button class="symbol-btn" data-symbol=":"><b>:</b></button>
+  <button class="symbol-btn" data-symbol=">">></button>
+  <button class="symbol-btn" data-symbol="<"><</button>
+  <button class="symbol-btn" data-symbol=":">:</button>
+  <button class="symbol-btn" data-symbol="%">%</button>
+ 
+ 
 
   <!-- Templates -->
   <button class="symbol-btn" data-template="sqrt">√</button>
@@ -282,10 +288,8 @@ Preview: <span id="mathPreviewContent">\( \)</span>
   <button class="symbol-btn" data-symbol="sin()">sin</button>
   <button class="symbol-btn" data-symbol="cos()">cos</button>
   <button class="symbol-btn" data-symbol="tan()">tan</button>
-  <button class="symbol-btn" data-template="scientific">10^x</button>
-  
-  <!-- Backspace (replaces =) -->
-  <button class="symbol-btn" id="backspaceBtn">⌫</button>
+
+   
 </div>
 <div class="button-row">
     <button id="submitBtn" class="primary">Submit Answer</button>
@@ -771,12 +775,6 @@ function insertTemplate(type){
     } else if(type === "sqrt"){
         answerInput.value = answerInput.value.slice(0, start) + "\\sqrt{}" + answerInput.value.slice(end);
         answerInput.selectionStart = answerInput.selectionEnd = start + 6; 
-    }else if(type === "scientific"){
-    const start = answerInput.selectionStart;
-    // Inserts the scientific notation template: "×10^{}"
-    answerInput.value = answerInput.value.slice(0,start) + " \\times 10^{}" + answerInput.value.slice(answerInput.selectionEnd);
-    // Put cursor inside the exponent
-    answerInput.selectionStart = answerInput.selectionEnd = start + 9; 
     }
 	
     answerInput.focus();
@@ -794,26 +792,7 @@ document.querySelectorAll(".symbol-btn").forEach(btn => {
     };
 });
 
-// Backspace button
-document.getElementById("backspaceBtn").onclick = () => {
-    const start = answerInput.selectionStart;
-    const end = answerInput.selectionEnd;
 
-    if(start === 0 && end === 0) return;
-
-    if(start !== end){
-        // delete selection
-        answerInput.value = answerInput.value.slice(0, start) + answerInput.value.slice(end);
-        answerInput.selectionStart = answerInput.selectionEnd = start;
-    } else {
-        // delete one char before cursor
-        answerInput.value = answerInput.value.slice(0, start-1) + answerInput.value.slice(end);
-        answerInput.selectionStart = answerInput.selectionEnd = start-1;
-    }
-
-    answerInput.focus();
-    answerInput.dispatchEvent(new Event('input'));
-};
 keyboardToggle.onclick=()=>{ toolbar.style.display=(toolbar.style.display==="none"||toolbar.style.display==="")?"grid":"none"; };
 
 // ---------- CONFETTI ----------
