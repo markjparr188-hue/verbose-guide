@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GCSE Maths Quiz</title>
+<title>GCSE Maths & Physics Quiz</title>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" ></script>
 <style>
 body {
@@ -148,14 +148,26 @@ select, input, textarea {
 .progress-container { width: 100%; background: rgba(255,255,255,0.1); border-radius: 10px; margin-top: 12px; }
 .progress-bar-inner { width: 0%; height: 24px; background: #ffcc00; border-radius: 10px; transition: width 0.3s; }
 #score { text-align: center; margin-top: 6px; font-size: 14px; color: #66ccff; }
-@media screen and (max-width:700px){
-    .quiz-container{ width:95%; padding:15px; }
-    .select-row{ grid-template-columns: 1fr; }
+
+
+@media screen and (min-width:701px) and (max-width:1024px){
+
+    .quiz-container{
+        width:85%;
+        margin:auto;
+    }
+
+    .select-row{
+        grid-template-columns: repeat(2,1fr);
+    }
+
     .input-row{
-    grid-template-columns: 1fr;
-    width: 100%;
-   }
+        grid-template-columns: 1fr auto;
+    }
+
 }
+
+
 /* Add new adjustments for smaller phones */
 @media screen and (max-width:600px) {
     .quiz-container {
